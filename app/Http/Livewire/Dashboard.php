@@ -13,9 +13,11 @@ class Dashboard extends Component
     public $repAll;
     public $repFiltered;
     public $filtered;
+    public $wasFiltered;
 
     public function mount($divisionAll, $divisionFiltered, $customerAll, $customerFiltered, $repAll, $repFiltered) {
         $this->filtered = false;
+        $this->wasFiltered = false;
         $this->divisionAll = $divisionAll->toArray();
         $this->divisionFiltered = $divisionFiltered->toArray();
         $this->customerAll = $customerAll->toArray();
@@ -27,5 +29,9 @@ class Dashboard extends Component
     public function render()
     {
         return view('livewire.dashboard');
+    }
+
+    public function onFilteredChange() {
+        $this->wasFiltered = true;
     }
 }
