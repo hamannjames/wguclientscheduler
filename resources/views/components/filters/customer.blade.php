@@ -1,6 +1,6 @@
 <div {{$attributes->merge(['class'])}}>
     @php
-        $customers = \App\Models\Customer::all();
+        $customers = \App\Models\Customer::orderBy('first_name')->get();
     @endphp
     <select wire:model="customer" wire:change="onCustomerChange">
         <option value="">Choose a Customer</option>

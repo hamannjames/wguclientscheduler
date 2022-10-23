@@ -11,6 +11,8 @@ use App\Models\Appointment;
 use Database\Enums\MeetingTypes;
 use Services\Helpers\RoleHelper;
 use Services\Helpers\TimeHelper;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentConfirmation;
 use Illuminate\Validation\Rules\Enum;
 use Database\Enums\FirstLevelDivisions;
 
@@ -148,6 +150,9 @@ class AppointmentCustomer extends Component
         $this->appointment->save();
 
         $th = TimeHelper::get();
+        $customer->name = $customer->first_name;
+
+        Mail::to($customer)->send(new AppointmentConfirmation($this->appointment, $customer->name, $this->rep->name, $this->rep->email));
         
         return redirect('/')->with('appointmentInfo', [
             'title' => $this->appointment->title,

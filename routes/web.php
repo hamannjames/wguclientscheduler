@@ -46,6 +46,7 @@ Route::group([
 
     Route::prefix('/representatives')->group(function(){
         Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::get('/new', [UserController::class, 'create'])->name('user.create');
         Route::get('/{user}', [UserController::class, 'show'])->name('user.show');
     });
 

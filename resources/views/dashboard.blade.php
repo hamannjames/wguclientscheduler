@@ -5,10 +5,12 @@
         </h2>
     </x-slot>
 
-    @php
-        $reps = \Services\Helpers\RoleHelper::getRepresentatives();
-    @endphp
-    @foreach($reps as $rep)
-        <p>{{base64_encode(Illuminate\Support\Facades\Hash::make($rep->email))}}</p>
-    @endforeach
+    <livewire:dashboard 
+        :divisionAll="$divisionAll" 
+        :divisionFiltered="$divisionFiltered"
+        :customerAll="$customerAll"
+        :customerFiltered="$customerFiltered"
+        :repAll="$repAll"
+        :repFiltered="$repFiltered"
+    />
 </x-app-layout>

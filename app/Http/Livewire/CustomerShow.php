@@ -14,6 +14,7 @@ class CustomerShow extends Component
 {
     public $customer;
     public $companies;
+    public $first_level_division;
 
     public $listeners = ['modelWillSave' => 'save', 'modelCustomerMustBeDeleted' => 'delete'];
 
@@ -27,7 +28,7 @@ class CustomerShow extends Component
             'customer.city' => 'nullable',
             'customer.postal_code' => 'nullable',
             'customer.state' => new Enum(States::class),
-            'customer.first_level_division' => new Enum(FirstLevelDivisions::class),
+            'first_level_division' => new Enum(FirstLevelDivisions::class),
             'customer.company_id' => 'nullable'
         ];
     }
@@ -37,8 +38,10 @@ class CustomerShow extends Component
             $customer = new Customer;
             $customer->state = States::TX->value;
             $customer->first_level_division = States::TX->firstLevelDivision();
+            $this->first_level_division = States::TX->firstLevelDivision();
+        } else {
+            $this->first_level_division = $customer->first_level_division;
         }
-
         $this->companies = Company::all();
         $this->customer = $customer;
     }
@@ -50,6 +53,7 @@ class CustomerShow extends Component
 
     public function save() {
         $this->validate();
+        $this->customer->first_level_division = $this->first_level_division;
         $this->customer->save();
         $this->emit('successNotification', 'Customer Saved!');
         $this->emit('modelSet', ['id' => $this->customer->id, 'class' => 'Customer']);
@@ -59,5 +63,9 @@ class CustomerShow extends Component
         $this->customer->delete();
         session()->flash('successNotification', $this->customer->fullName() . ' was deleted');
         return redirect()->to(route('admin.customer.index'));
+    }
+
+    public function onStateChange() {
+        $this->first_level_division = States::from($this->customer->state)->firstLevelDivision()->value;
     }
 }

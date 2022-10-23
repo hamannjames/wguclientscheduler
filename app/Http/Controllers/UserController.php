@@ -19,4 +19,8 @@ class UserController extends Controller
     public function show(User $user) {
         return view('user.show', ['rep' => $user]);
     }
+
+    public function create() {
+        return view('user.show', ['rep' => null]);
+    }
 }

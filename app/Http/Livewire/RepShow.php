@@ -6,23 +6,28 @@ use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
 use Database\Enums\Roles;
+use Illuminate\Support\Facades\Hash;
 
 class RepShow extends Component
 {
     public $rep;
+    public $appointments;
+    public $password;
 
     public $listeners = ['modelWillSave' => 'save', 'modelUserMustBeDeleted' => 'delete'];
 
     protected $rules = [
         'rep.name' => 'required',
         'rep.email' => 'required|email',
+        'password' => 'required|min:8'
     ];
 
     public function mount($rep = null) {
-        $role = Role::where('name', Roles::REPRESENTATIVE->value);
+        $role = Role::firstWhere('name', Roles::REPRESENTATIVE->value);
+        $this->appointments = isset($rep) ? $rep->appointments : null;
         if (!isset($rep)) {
             $this->rep = new User;
-            $this->rep->role_id = $role;
+            $this->rep->setRelation('role', $role);
         }
     }
 
@@ -33,9 +38,15 @@ class RepShow extends Component
 
     public function save() {
         $this->validate();
+        if (!$this->rep->password) {
+            $this->rep->password = Hash::make($this->password);
+        }
         $this->rep->save();
+        if (!$this->appointments) {
+            $this->appointments = $this->rep->appointments;
+        }
         $this->emit('successNotification', 'Representative Saved!');
-        $this->emit('modelSet', $this->rep);
+        $this->emit('modelSet', ['id' => $this->rep->id, 'class' => 'User']);
     }
 
     public function delete() {

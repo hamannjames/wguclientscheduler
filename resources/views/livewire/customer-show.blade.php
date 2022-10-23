@@ -32,7 +32,7 @@
             </label>
             <label class="relative">
                 State
-                <select wire:model="customer.state" class="block">
+                <select wire:model="customer.state" class="block" wire:change="onStateChange">
                     @foreach(array_column(\Database\Enums\States::cases(), 'value') as $state)
                         <option value="{{$state}}">{{$state}}</option>
                     @endforeach
@@ -47,7 +47,7 @@
             </label>
             <label class="relative">
                 Division
-                <input class="block text-gray-500 italic" type="text" disabled value="{{\Database\Enums\States::from($customer->state)->firstLevelDivision()}}"/>
+                <input wire:model="first_level_division" class="block text-gray-500 italic" type="text" disabled value="{{\Database\Enums\States::from($customer->state)->firstLevelDivision()}}"/>
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('customer.first_level_division'){{$message}}@enderror</div>
             </label>
         </div>
