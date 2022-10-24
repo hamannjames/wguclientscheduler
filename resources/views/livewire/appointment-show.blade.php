@@ -64,13 +64,21 @@
                             maxDate: max,
                             showDaysInNextAndPreviousMonths: true,
                             enableSelectionDaysInNextAndPreviousMonths: true,
-                            toString: (date, format) => date.toDateString() + ' ' + Intl.DateTimeFormat().resolvedOptions().timeZone
+                            toString: (date, format) => date.toDateString() + ' ' + Intl.DateTimeFormat().resolvedOptions().timeZone,
+                            parse: (date, format) => {
+                                if (isNaN(Date.parse(date))) {
+                                    date = (new Date()).toDateString() + ' ' + Intl.DateTimeFormat().resolvedOptions().timeZone
+                                    console.log(date);
+                                }
+
+                                return date;
+                            }
                         });
                     "
                     type="text"
                     wire:model.lazy="otherStart"
                     wire:change="onDateChange"
-                    class="block w-full font-normal"
+                    class="block w-full font-normal relative"
                 >
             </label>
             @php

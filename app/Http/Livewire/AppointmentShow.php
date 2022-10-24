@@ -11,6 +11,7 @@ use Database\Enums\MeetingTypes;
 use Services\Helpers\RoleHelper;
 use Services\Helpers\TimeHelper;
 use Illuminate\Validation\Rules\Enum;
+use Carbon\Exceptions\InvalidFormatException;
 
 class AppointmentShow extends Component
 {
@@ -174,5 +175,18 @@ class AppointmentShow extends Component
         $theEnd->setTimezone($th->getBusinessTimeZone());
         
         return $theEnd;
+    }
+
+    public function updated($name, $value) {
+        if ($name === 'otherStart') {
+            try {
+                Carbon::parse($value);
+            } catch (InvalidFormatException $e) {
+                $th = TimeHelper::get();
+                $this->emit('errorNotification', 'Invalid Date');
+                $value = Carbon::now()->setTimezone($th->getUserTimeZone())->format($th->getDateDisplayFormat());
+                $this->otherStart = $value;
+            }
+        }
     }
 }

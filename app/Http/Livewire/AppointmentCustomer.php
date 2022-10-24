@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentConfirmation;
 use Illuminate\Validation\Rules\Enum;
 use Database\Enums\FirstLevelDivisions;
+use Carbon\Exceptions\InvalidFormatException;
 
 class AppointmentCustomer extends Component
 {
@@ -202,5 +203,18 @@ class AppointmentCustomer extends Component
         $customer->save();
 
         return $customer;
+    }
+
+    public function updated($name, $value) {
+        if ($name === 'otherStart') {
+            try {
+                Carbon::parse($value);
+            } catch (InvalidFormatException $e) {
+                $th = TimeHelper::get();
+                $this->emit('errorNotification', 'Invalid Date');
+                $value = Carbon::now()->setTimezone($th->getUserTimeZone())->format($th->getDateDisplayFormat());
+                $this->otherStart = $value;
+            }
+        }
     }
 }
