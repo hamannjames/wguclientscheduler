@@ -18,7 +18,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = Appointment::with(['customer', 'user'])->get();
+        $appointments = Appointment::with(['customer', 'user'])->orderBy('start')->get();
         return view('appointment.index', ['appointments' => $appointments]);
     }
 

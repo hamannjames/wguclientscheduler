@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index() {
         $role = Role::where('name', Roles::REPRESENTATIVE->value)->first();
-        $reps = $role->users;
+        $reps = $role->users()->orderBy('name')->get();
 
         return view('user.index', ['reps' => $reps]);
     }

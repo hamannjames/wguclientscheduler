@@ -47,7 +47,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return 'hello';
+        return view('company.show', ['company' => $company]);
     }
 
     /**

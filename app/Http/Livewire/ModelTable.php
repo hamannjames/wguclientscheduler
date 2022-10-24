@@ -39,7 +39,20 @@ abstract class ModelTable extends Component
             ->through($this->filters)
             ->thenReturn();
         
+        switch($this->baseClass) {
+            case('Customer'):
+                $theQuery->query->orderBy('last_name');
+                break;
+            case('User'):
+                $theQuery->query->orderBy('name');
+                break;
+            case('Appointment'):
+                $theQuery->query->orderBy('start');
+                break;
+        }
+        
         $this->models = $theQuery->query->get();
+        $this->emit('tableFiltered');
     }
 
     public function render()

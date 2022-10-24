@@ -9,7 +9,7 @@
         </div>
     </x-slot>
 
-    <p>Times are shown in {{\Services\Helpers\TimeHelper::get()->getUserTimeZone()}}. If this is not your time zone, try refreshing the page.</p>
+    <p class="text-right">Times are shown in {{\Services\Helpers\TimeHelper::get()->getUserTimeZone()}}. If this is not your time zone, try refreshing the page.</p>
     <livewire:appointment-table :models="$appointments" />
     <livewire:delete-modal />
 </x-app-layout>

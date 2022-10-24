@@ -86,7 +86,7 @@ class AppointmentShow extends Component
         $this->firstDateChange = true;
         
         if (!isset($appointment)) {
-            $this->customers = Customer::all();
+            $this->customers = Customer::orderBy('first_name')->get();
             $start = $th->getBusinessStart();
             $appointment = new Appointment;
             $appointment->type = MeetingTypes::cases()[0]->value;

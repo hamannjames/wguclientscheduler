@@ -84,14 +84,14 @@
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('admin.customer.index')" :active="request()->routeIs('admin.customer.index')">
+                {{ __('Customers') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.index')">
+                {{ __('Representatives') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('admin.appointment.index')" :active="request()->routeIs('admin.appointment.index')">
+                {{ __('Appointments') }}
             </x-responsive-nav-link>
         </div>
 

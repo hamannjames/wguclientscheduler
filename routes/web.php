@@ -51,10 +51,9 @@ Route::group([
     });
 
     Route::prefix('/company')->group(function(){
-        Route::get('/', [CompanyController::class, 'index'])->name('company.index');
+        Route::redirect('/', '/admin/dashboard');
         Route::get('/{company}', [CompanyController::class, 'show'])->name('company.show');
     });
-
     
     Route::prefix('/appointments')->group(function(){
         Route::get('/', [AppointmentController::class, 'index'])->name('appointment.index');

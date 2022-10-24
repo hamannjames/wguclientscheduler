@@ -1,13 +1,13 @@
 <div>
-
     @if (isset($filters))
+    <p class="text-right">If you have filtered the table, you need to refresh the page to delete {{$baseClass}}s.</p>
         <div class="flex justify-end items-center gap-4 flex-wrap">
         @foreach($filters as $filter)
             <x-dynamic-component :component="'filters.' . Str::kebab(class_basename($filter))" class="mb-2" />
         @endforeach
         </div>
     @endif
-    <section class="grid" style="grid-template-columns: repeat({{$filtered ? count($columns) : count($columns) + 1}}, auto);">
+    <section class="grid overflow-x-scroll" style="grid-template-columns: repeat({{$filtered ? count($columns) : count($columns) + 1}}, auto);">
         @foreach($columns as $column)
             <div class="font-bold bg-gray-200 p-2">{{$column['display']}}</div>
         @endforeach
@@ -51,16 +51,25 @@
         @endforeach
         @if(!$filtered)
         <div class="{{$loop->index % 2 != 0 ? 'bg-gray-200' : ''}} p-2">
-            <button wire:key="{{$model->id}}" class="btn btn-red" wire:click="$emit('modelWillBeDeleted', {
-                class: '{{$baseClass}}', 
-                id: {{$model->id}},
-                message: `@switch($baseClass)
-                @case('User')
-                @case('Customer')
-                    All their appointments will also be deleted
-                    @break
-            @endswitch`
-            })">Delete</button>
+            @php
+                $message;
+                switch($baseClass) {
+                    case('Customer'):
+                    case('Appointment'):
+                        $message = "All their appointments will also be deleted";
+                        break;
+                    default:
+                        $message = '';
+                }
+            @endphp
+            <button
+                class="btn btn-red"
+                wire:click="$emit('modelWillBeDeleted', {
+                        class: '{{$baseClass}}', 
+                        id: {{$model->id}},
+                        message: '{{$message}}'
+                })"
+            >Delete</button>
         </div>
         @endif
     @empty

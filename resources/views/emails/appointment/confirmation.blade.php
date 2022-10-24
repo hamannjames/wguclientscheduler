@@ -3,7 +3,7 @@
 
 Title: {{$appointment->title}}<br>
 Description: {{$appointment->description}}<br>
-From: {{$timeHelper->fromStringToUserObject($appointment->start)->format('D M d g A e')}} - {{$timeHelper->fromStringToUserObject($appointment->end)->format('D M d g A e')}}<br>
+From: {{$timeHelper->fromStringToUserObject($appointment->start)->format('D M d g A')}} - {{$timeHelper->fromStringToUserObject($appointment->end)->format('g A e')}}<br>
 Type: {{$appointment->type}}<br>
 With: {{$repName}}
 

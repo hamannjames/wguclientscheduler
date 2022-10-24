@@ -15,6 +15,7 @@ class CustomerShow extends Component
     public $customer;
     public $companies;
     public $first_level_division;
+    public $appointments;
 
     public $listeners = ['modelWillSave' => 'save', 'modelCustomerMustBeDeleted' => 'delete'];
 
@@ -41,8 +42,10 @@ class CustomerShow extends Component
             $this->first_level_division = States::TX->firstLevelDivision();
         } else {
             $this->first_level_division = $customer->first_level_division;
+            $this->appointments = $customer->appointments()->orderBy('start')->get();
         }
-        $this->companies = Company::all();
+        
+        $this->companies = Company::orderBy('name')->get();
         $this->customer = $customer;
     }
 

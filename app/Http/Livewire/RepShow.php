@@ -28,6 +28,8 @@ class RepShow extends Component
         if (!isset($rep)) {
             $this->rep = new User;
             $this->rep->setRelation('role', $role);
+        } else {
+            $this->password = $this->rep->password;
         }
     }
 

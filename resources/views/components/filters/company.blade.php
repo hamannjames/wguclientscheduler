@@ -1,6 +1,6 @@
 <div {{$attributes->merge(['class'])}}>
     @php
-        $companies = \App\Models\Company::all();
+        $companies = \App\Models\Company::orderBy('name')->get();
     @endphp
     <select wire:model="company" wire:change="onCompanyChange">
         <option value="">Choose a Company</option>

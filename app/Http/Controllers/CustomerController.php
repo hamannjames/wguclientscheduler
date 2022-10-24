@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('company')->get();
+        $customers = Customer::with('company')->orderBy('last_name')->get();
 
         return view('customer.index', ['customers' => $customers]);
     }
@@ -50,7 +50,7 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         $customer->load('company');
-        
+
         return view('customer.show', ['customer' => $customer]);
     }
 

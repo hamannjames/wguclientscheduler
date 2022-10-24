@@ -109,6 +109,7 @@ class AppointmentCustomer extends Component
         $appointment->user_id = $this->rep->id;
         $this->startHour = $start->copy()->format($tdf);
         $this->endHour = $start->copy()->addHour()->format($tdf);
+        $this->state = States::AL->value;
 
         $this->appointment = $appointment;
         $this->startHour = $th->fromStringToUserObject($this->appointment->start)->format($tdf);

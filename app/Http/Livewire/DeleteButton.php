@@ -30,4 +30,10 @@ class DeleteButton extends Component
         $this->modelId = $model['id'];
         $this->modelClass = $model['class'];
     }
+
+    public function modelDeleted($model) {
+        if ($model['class'] === $this->modelClass && $model['id'] == $this->modelId) {
+
+        }
+    }
 }
