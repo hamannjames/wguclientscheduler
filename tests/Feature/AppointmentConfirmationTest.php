@@ -31,11 +31,13 @@ class AppointmentConfirmationTest extends TestCase
             ->create();
 
         $th = TimeHelper::get();
-        $start = $th->fromStringToUserObject($appointment->start)->format('D M d g A e');
-        $end = $th->fromStringToUserObject($appointment->end)->format('D M d g A e');
+
+        $start = $th->fromStringToUserObject($appointment->start)->format('D M d g');
+        $end = $th->fromStringToUserObject($appointment->end)->format('g A e');
             
         $mailable = new AppointmentConfirmation($appointment, $customer->first_name, $rep->name, $rep->email);
         $mailable->assertFrom('marinelogistics@mg.jameshamann.net');
+        $mailable->assertDontSeeInHtml($customer->first_level_division);
         $mailable->assertSeeInHtml($customer->first_name);
         $mailable->assertSeeInHtml($appointment->title);
         $mailable->assertSeeInHtml($appointment->description);
@@ -43,6 +45,15 @@ class AppointmentConfirmationTest extends TestCase
         $mailable->assertSeeInHtml($end);
         $mailable->assertSeeInHtml($rep->email);
         $mailable->assertSeeInHtml($rep->name);
+        $mailable->assertSeeInOrderInHtml([
+            $customer->first_name,
+            $appointment->title,
+            $appointment->description,
+            $start,
+            $end,
+            $rep->name,
+            $rep->email
+        ]);
     }
 
     public function test_appointment_confirmation_send()
@@ -55,13 +66,12 @@ class AppointmentConfirmationTest extends TestCase
             ->for($customer)
             ->create();
 
-        $customer->name = $customer->first_name;
         $mailable = new AppointmentConfirmation($appointment, $customer->first_name, $rep->name, $rep->email);
 
         Mail::fake();
         Mail::assertNothingSent();
         Mail::to($customer)->send($mailable);
-        Mail::assertSent(AppointmentConfirmation::class);
+        Mail::assertSent(AppointmentConfirmation::class, 1);
         $mailable->assertTo($customer->email);
     }
 }
