@@ -44,7 +44,7 @@ class AppointmentCustomer extends Component
         $theStartHour = $this->startHour;
         $this->endTime = $this->getCompiledEnd();
         return [
-            'otherStart' => 'required|date|after:yesterday',
+            'otherStart' => 'required|date|after:today',
             'startHour' => 'required',
             'endHour' => [
                 'required',
