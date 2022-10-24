@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use Database\Enums\Roles;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
 
 class RepShow extends Component
 {
@@ -43,7 +44,12 @@ class RepShow extends Component
         if (!$this->rep->password) {
             $this->rep->password = Hash::make($this->password);
         }
-        $this->rep->save();
+        try {
+            $this->rep->save();
+        } catch (QueryException $e) {
+            $this->emit('errorNotification', 'That email is taken');
+            return;
+        }
         if (!$this->appointments) {
             $this->appointments = $this->rep->appointments;
         }
