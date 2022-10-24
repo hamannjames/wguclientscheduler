@@ -3,18 +3,18 @@
         <div class="p-4 bg-white rounded-xl shadow-sm flex flex-col gap-4">
             <div class="flex gap-4">
                 <label class="relative font-bold w-full">
-                    First Name 
-                    <input class="block font-normal w-full" wire:model="customer.first_name" type="text" />
+                    First Name <span class="text-red-500">*</span>
+                    <input class="block font-normal w-full required" wire:model="customer.first_name" type="text" />
                     <div class="absolute top-full text-sm text-red-500 left-0">@error('customer.first_name'){{$message}}@enderror</div>
                 </label>
                 <label class="relative font-bold w-full">
-                    Last Name 
+                    Last Name <span class="text-red-500">*</span>
                     <input class="block font-normal w-full" wire:model="customer.last_name" type="text" />
                     <div class="absolute top-full text-sm text-red-500 left-0">@error('customer.last_name'){{$message}}@enderror</div>
                 </label>
             </div>
             <label class="relative font-bold">
-                Email
+                Email <span class="text-red-500">*</span>
                 <input class="block font-normal w-full" wire:model="customer.email" type="text" />
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('customer.email'){{$message}}@enderror</div>
             </label>
@@ -32,7 +32,7 @@
                     <input class="block font-normal w-full" wire:model="customer.city" type="text" />
                 </label>
                 <label class="relative w-full font-bold">
-                    State
+                    State <span class="text-red-500">*</span>
                     <select wire:model="customer.state" class="block font-normal w-full" wire:change="onStateChange">
                         @foreach(array_column(\Database\Enums\States::cases(), 'value') as $state)
                             <option value="{{$state}}">{{$state}}</option>
@@ -47,7 +47,7 @@
                     <input class="block font-normal w-full" wire:model="customer.postal_code" type="text" />
                 </label>
                 <label class="relative w-full font-bold">
-                    Division
+                    Division <span class="text-red-500">*</span>
                     <input wire:model="first_level_division" class="block text-gray-500 italic font-normal w-full" type="text" disabled value="{{\Database\Enums\States::from($customer->state)->firstLevelDivision()}}"/>
                     <div class="absolute top-full text-sm text-red-500 left-0">@error('customer.first_level_division'){{$message}}@enderror</div>
                 </label>

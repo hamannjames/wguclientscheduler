@@ -2,18 +2,18 @@
     <div class="w-full md:w-1/3 px-0 md:px-2">
         <div class="flex w-full flex-col gap-4 p-4 rounded-xl bg-white h-full">
             <label class="relative font-bold">
-                Name
+                Name <span class="text-red-500">*</span>
                 <input class="block font-normal w-full" wire:model="rep.name" type="text" />
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('rep.name'){{$message}}@enderror</div>
             </label>
             <label class="relative font-bold">
-                Email
+                Email <span class="text-red-500">*</span>
                 <input class="block font-normal w-full" wire:model="rep.email" type="text" />
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('rep.email'){{$message}}@enderror</div>
             </label>
             @if(!$rep->id)
             <label class="relative font-bold">
-                Password
+                Password <span class="text-red-500">*</span>
                 <input class="block font-normal w-full" wire:model="password" type="text" />
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('password'){{$message}}@enderror</div>
             </label>

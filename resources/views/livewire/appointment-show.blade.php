@@ -2,17 +2,17 @@
     <div class="flex flex-col gap-4 w-full lg:w-1/3 p-0 md:px-2">
         <div class="p-4 bg-white rounded-xl shadow-md flex flex-col gap-4 h-full">
             <label class="relative font-bold block">
-                Title
+                Title <span class="text-red-500">*</span>
                 <input class="block w-full font-normal" wire:model="appointment.title" type="text" />
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('appointment.title'){{$message}}@enderror</div>
             </label>
             <label class="relative font-bold">
-                Description
+                Description <span class="text-red-500">*</span>
                 <textarea rows="5" class="block w-full font-normal" wire:model="appointment.description"></textarea>
                 <div class="absolute top-full text-sm text-red-500 left-0">@error('appointment.description'){{$message}}@enderror</div>
             </label>
             <label class="relative font-bold">
-                Type
+                Type <span class="text-red-500">*</span>
                 <select wire:model="appointment.type" class="block font-normal w-1/2">
                     @foreach(array_column(\Database\Enums\MeetingTypes::cases(), 'value') as $type)
                         <option value="{{$type}}">{{$type}}</option>
@@ -22,7 +22,7 @@
             </label>
             <div class="flex gap-4">
                 <label class="relative w-full font-bold">
-                    Customer
+                    Customer <span class="text-red-500">*</span>
                     @if($appointment->id)
                         <input class="block w-full text-gray-500 font-normal italic" type="text" value="{{$appointment ? $appointment->customer->fullName() : ''}}" disabled />
                     @else
@@ -34,7 +34,7 @@
                     @endif
                 </label>
                 <label class="relative w-full font-bold">
-                    Representative
+                    Representative <span class="text-red-500">*</span>
                     <select class="w-full font-normal" wire:model="otherRep" class="block font-normal" wire:change="onRepChanged">
                         @foreach($users as $user)
                             <option value="{{$user->id}}">{{$user->name}}</option>
@@ -52,7 +52,7 @@
                 max.setMonth(max.getMonth() + 3);
             </script>
             <label class="font-bold">
-                Date
+                Date <span class="text-red-500">*</span>
                 <input
                     id="date-picker"
                     x-data
@@ -91,7 +91,7 @@
             @endphp
             <div class="flex gap-4 w-full">
                 <label class="font-bold w-full">
-                    Start
+                    Start <span class="text-red-500">*</span>
                     <select wire:model="startHour" class="w-full font-normal">
                         @for($i = 0; $i < 9; $i++)
                             <option value="{{$hoursStart->format($tdf)}}">{{$hoursStart->format($tdf)}}</option>
@@ -103,7 +103,7 @@
                     $hoursStart = \Services\Helpers\TimeHelper::get()->getBusinessStart();
                 @endphp
                 <label class="font-bold w-full">
-                    End
+                    End <span class="text-red-500">*</span>
                     <select wire:model="endHour" class="w-full font-normal">
                         @for($i = 0; $i < 9; $i++)
                             <option value="{{$hoursStart->format($tdf)}}">{{$hoursStart->format($tdf)}}</option>
