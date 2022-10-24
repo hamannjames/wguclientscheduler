@@ -38,6 +38,7 @@
             @include('layouts.footer')
         </div>
         <livewire:toast />
+        <livewire:toast-error />
         @livewireScripts
     </body>
 </html>

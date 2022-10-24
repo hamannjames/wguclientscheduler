@@ -10,10 +10,6 @@
     x-transition:leave-end="opacity-0 transform translate-x-8"
     x-init="
         setTimeout(() => {isOpen = false}, 5000)
-        window.livewire.on('successNotification', () => {
-            isOpen = true
-            setTimeout(() => {isOpen = false}, 5000)
-        })
         window.livewire.on('errorNotification', () => {
             isOpen = true
             setTimeout(() => {isOpen = false}, 5000)

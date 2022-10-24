@@ -14,10 +14,6 @@
             isOpen = true
             setTimeout(() => {isOpen = false}, 5000)
         })
-        window.livewire.on('errorNotification', () => {
-            isOpen = true
-            setTimeout(() => {isOpen = false}, 5000)
-        })
     "
     class="fixed right-0 bottom-0 bg-white rounded-xl shadow-lg border m-6 mb-24"
 >

@@ -26,6 +26,6 @@ class Toast extends Component
     public function successNotification($message = null) {
         $this->message = $message;
         $this->show = true;
-        $this->status = 'success';
+        $this->status = 'error';
     }
 }

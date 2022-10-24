@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
 use App\Models\Company;
 use Livewire\Component;
 use App\Models\Customer;
@@ -9,6 +10,7 @@ use Database\Enums\States;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Database\Enums\FirstLevelDivisions;
+use Illuminate\Database\QueryException;
 
 class CustomerShow extends Component
 {
@@ -44,7 +46,7 @@ class CustomerShow extends Component
             $this->first_level_division = $customer->first_level_division;
             $this->appointments = $customer->appointments()->orderBy('start')->get();
         }
-        
+
         $this->companies = Company::orderBy('name')->get();
         $this->customer = $customer;
     }
@@ -57,7 +59,12 @@ class CustomerShow extends Component
     public function save() {
         $this->validate();
         $this->customer->first_level_division = $this->first_level_division;
-        $this->customer->save();
+        try {
+            $this->customer->save();
+        } catch (Exception $e) {
+            $this->emit('errorNotification', 'That email is taken');
+            return;
+        }
         $this->emit('successNotification', 'Customer Saved!');
         $this->emit('modelSet', ['id' => $this->customer->id, 'class' => 'Customer']);
     }
